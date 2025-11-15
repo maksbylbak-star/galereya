@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для Ані 💗</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400&display=swap');
+
+body{margin:0; padding:0; font-family:'Open Sans',sans-serif; background:radial-gradient(circle at 30% 30%, #330d1a 0%, #4d0f2f 50%, #2b0a1a 100%); overflow-x:hidden;}
+
+/* ------------------ ЗАСТАВКА ------------------ */
+#preloader{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(120deg,#3a0a1b,#621c3a,#3a0a1b);background-size:400% 400%;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;opacity:1;transition:opacity 2s ease;animation:gradientShift 8s ease-in-out infinite;overflow:hidden;}
+@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.preloader-content{text-align:center;color:#ffd9e8;font-family:'Great Vibes',cursive;position:relative;z-index:2;animation:fadeInText 2s ease forwards;}
+@keyframes fadeInText{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.preloader-content h2{font-size:2.8rem;margin-bottom:10px;text-shadow:0 0 12px rgba(255,170,200,0.6);}
+.preloader-content p{font-size:1.2rem;color:#ffbfd6;margin-bottom:20px;}
+#enter-btn{background: rgba(255,192,203,0.15); border:2px solid #ff99cc; padding:10px 30px; border-radius:25px; font-size:1rem; cursor:pointer; transition:.3s;}
+#enter-btn:hover{background: rgba(255,153,204,0.3); transform: scale(1.05); box-shadow:0 0 15px #ff99cc;}
+.hearts-bg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;z-index:1;}
+
+/* ------------------ ОСНОВА ------------------ */
+.main-content{opacity:0; animation:fadeInMain 2s ease forwards; padding:40px 20px 120px 20px; max-width:900px; margin:auto; text-align:center; position:relative;}
+@keyframes fadeInMain{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+.main-title{font-family:'Great Vibes',cursive;font-size:3rem;color:#ff99cc;text-shadow:0 0 15px rgba(255,160,200,0.6);margin-bottom:25px;}
+
+/* Фото альбом */
+.album{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px;margin-top:30px;}
+.photo-card{background: rgba(255,255,255,0.05); backdrop-filter: blur(6px); border-radius:20px; padding:15px; box-shadow:0 0 12px rgba(255,120,180,0.3); transition: transform .4s ease, box-shadow .4s ease; animation:fadeCard 1s ease forwards; opacity:0; cursor:pointer;}
+@keyframes fadeCard{from{opacity:0; transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.photo-card:hover{transform:scale(1.03); box-shadow:0 0 25px rgba(255,160,210,0.6);}
+.photo-card img{width:100%; height:270px; border-radius:15px; object-fit:cover;}
+.photo-description{margin-top:10px;color:#ffb4d4;font-family:'Open Sans',sans-serif;font-size:0.95rem;text-shadow:0 0 5px rgba(255,100,150,0.4);}
+.delete-photo{margin-top:5px;padding:4px 8px;border:none;border-radius:10px;background:#ff6fa3;color:white;cursor:pointer;}
+
+/* Послання */
+.message-box{margin-top:60px;padding:25px;background: rgba(255,255,255,0.05); border-radius:20px; backdrop-filter:blur(6px); box-shadow:0 0 15px rgba(255,150,200,0.4); animation:fadeInMessage 2s ease forwards;}
+@keyframes fadeInMessage{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.message-title{font-family:'Great Vibes',cursive;font-size:2.6rem;color:#ff99cc;margin-bottom:10px;}
+.message-text{color:#ffbed9;font-size:1.1rem;line-height:1.7;}
+
+/* Мерехтіння + пелюстки */
+.sparkle{position:fixed;width:6px;height:6px;background:white;border-radius:50%;pointer-events:none;animation:sparkleAnim 2s linear infinite;opacity:0.7;}
+@keyframes sparkleAnim{from{transform:translateY(0) scale(1);}to{transform:translateY(-60px) scale(0);}}
+.petal{position:fixed;top:-10px;font-size:22px;animation:fallPetal linear infinite;opacity:0.9;}
+@keyframes fallPetal{0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(100vh) rotate(360deg);}}
+
+/* Музика */
+.music-control{position:fixed;bottom:20px;background: rgba(102,17,68,0.6); border:2px solid #ff99cc; padding:10px 25px; border-radius:25px; color:#ff99cc; font-size:16px; cursor:pointer; z-index:10; backdrop-filter:blur(4px); transition:.3s;}
+.music-control:hover{transform:scale(1.05); background: rgba(136,34,85,0.8); box-shadow:0 0 15px #ff99cc;}
+
+/* Модальне фото */
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);display:none;justify-content:center;align-items:center;z-index:99999;}
+.modal img{max-width:80%; max-height:80%; border-radius:20px; box-shadow:0 0 20px rgba(255,120,180,0.8);}
+.modal-close{position:absolute;top:20px;right:40px;font-size:2.6rem;color:white;cursor:pointer;}
+
+/* Кнопка додати фото */
+#add-photo-btn{position:fixed;top:20px;right:20px;background:rgba(255,192,203,0.25); border:2px solid #ff99cc; padding:10px 20px; border-radius:20px; color:#ffd1dc; cursor:pointer; z-index:20;}
+#add-photo-btn:hover{background:rgba(255,153,204,0.45);}
+</style>
+</head>
+<body>
+
+<!-- ------------------ ЗАСТАВКА ------------------ -->
+<div id="preloader">
+  <div class="hearts-bg"></div>
+  <div class="preloader-content">
+    <h2>Для тебе 💌</h2>
+    <p>Тут зібране все те, що я поки що маю...</p>
+    <button id="enter-btn">Увійти 💖</button>
+  </div>
+</div>
+
+<!-- ------------------ ОСНОВА ------------------ -->
+<div class="main-content" id="main">
+  <h2 class="main-title">Моя принцеса 💗</h2>
+
+  <div class="album"></div>
+
+  <div class="message-box">
+    <div class="message-title">Послання для тебе 💌</div>
+    <div class="message-text">
+      Ти змінюєш мій світ так, як не змінював ніхто.  
+      Ти робиш моє життя теплішим, світлішим і щасливішим.
+      <br><br>
+      Дякую тобі за кожен момент, за кожну емоцію,  
+      за кожне слово, яке ти мені сказала.
+      <br><br>
+      Ти - моє все ❤️
+    </div>
+  </div>
+</div>
+
+<button class="music-control" onclick="toggleMusic()">🎵 Музика</button>
+<audio id="bg-music" loop><source src="music.mp3" type="audio/mpeg"></audio>
+
+<!-- Кнопка додати фото -->
+<button id="add-photo-btn">➕ Додати фото</button>
+
+<!-- Модальне вікно додати фото -->
+<div class="modal" id="add-photo-modal">
+  <div style="background: rgba(0,0,0,0.8); padding:25px; border-radius:15px; text-align:center; max-width:400px; width:90%;">
+    <h2 style="color:#ff99cc; font-family:'Great Vibes',cursive;">Додати фото 💖</h2>
+    <input id="photo-file" type="file" accept="image/*" style="width:90%; padding:8px; margin:10px 0; border-radius:8px; border:none;">
+    <input id="photo-desc" type="text" placeholder="Введи опис" style="width:90%; padding:8px; margin:10px 0; border-radius:8px; border:none;">
+    <br>
+    <button id="save-photo" style="margin-top:10px; padding:8px 20px; border-radius:15px; border:none; background:#ff99cc; color:white; cursor:pointer;">Додати</button>
+    <button onclick="closeAddPhoto()" style="margin-top:10px; padding:8px 20px; border-radius:15px; border:none; background:#ff6fa3; color:white; cursor:pointer;">Скасувати</button>
+  </div>
+</div>
+
+<!-- Модальне фото -->
+<div class="modal" id="gallery-modal">
+  <span class="modal-close" onclick="closeGallery()">&times;</span>
+  <img id="modal-img">
+</div>
+
+<script>
+/* ===== ЗАСТАВКА ===== */
+const heartColors=['#ffb6c1','#ffd1dc','#ffc1cc','#f9a5c2','#ffbbe6','#fff0f6'];
+function createPreloaderHeart(){
+  const h=document.createElement("div"); h.innerHTML="💖"; h.style.position="absolute";
+  h.style.bottom="-20px"; h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=(15+Math.random()*10)+"px";
+  h.style.animation=`floatUp ${6+Math.random()*4}s linear`;
+  h.style.color=heartColors[Math.floor(Math.random()*heartColors.length)];
+  document.querySelector(".hearts-bg").appendChild(h);
+  setTimeout(()=>h.remove(),9000);
+}
+setInterval(createPreloaderHeart,600);
+
+/* Музика */
+const music=document.getElementById("bg-music");
+function fadeInMusic(){music.volume=0;const iv=setInterval(()=>{if(music.volume<0.4) music.volume+=0.02;else clearInterval(iv)},200);}
+document.getElementById("enter-btn").onclick=()=>{
+  music.play().then(()=>fadeInMusic());
+  const p=document.getElementById("preloader"); p.style.opacity="0"; setTimeout(()=>p.remove(),2500);
+};
+function toggleMusic(){if(music.paused) music.play(); else music.pause();}
+
+/* Пелюстки */
+setInterval(()=>{
+  const p=document.createElement("div"); p.classList.add("petal"); p.innerHTML="🌸";
+  p.style.left=Math.random()*100+"vw";
+  p.style.animationDuration=4+Math.random()*4+"s";
+  document.body.appendChild(p); setTimeout(()=>p.remove(),8000);
+},500);
+
+/* Мерехтіння */
+setInterval(()=>{
+  const s=document.createElement("div"); s.classList.add("sparkle");
+  s.style.left=Math.random()*100+"vw"; s.style.top=Math.random()*100+"vh";
+  s.style.animationDuration=(1+Math.random())+"s"; document.body.appendChild(s);
+  setTimeout(()=>s.remove(),1500);
+},300);
+
+/* Модальне фото */
+function closeGallery(){document.getElementById("gallery-modal").style.display="none";}
+
+/* ===== Галерея ===== */
+const album=document.querySelector(".album");
+
+// Створення фото-карти
+function createPhotoCard(url,desc){
+  const card=document.createElement("div"); card.classList.add("photo-card");
+  card.innerHTML=`<img src="${url}"><div class="photo-description">${desc}</div><button class="delete-photo">❌ Видалити</button>`;
+  album.appendChild(card);
+
+  card.querySelector("img").addEventListener("click",()=>{
+    document.getElementById("gallery-modal").style.display="flex";
+    document.getElementById("modal-img").src=url;
+  });
+
+  card.querySelector(".delete-photo").addEventListener("click",()=>{
+    card.remove();
+    const currentAlbum=JSON.parse(localStorage.getItem("albumPhotos")||"[]");
+    const updatedAlbum=currentAlbum.filter(item=>item.url!==url||item.desc!==desc);
+    localStorage.setItem("albumPhotos",JSON.stringify(updatedAlbum));
+  });
+}
+
+// Завантаження фото з localStorage
+const savedAlbum=JSON.parse(localStorage.getItem("albumPhotos")||"[]");
+savedAlbum.forEach(item=>createPhotoCard(item.url,item.desc));
+
+// Додати фото
+document.getElementById("add-photo-btn").onclick=()=>{document.getElementById("add-photo-modal").style.display="flex";}
+function closeAddPhoto(){document.getElementById("add-photo-modal").style.display="none";}
+
+document.getElementById("save-photo").onclick=()=>{
+  const fileInput=document.getElementById("photo-file");
+  const desc=document.getElementById("photo-desc").value.trim();
+  if(fileInput.files.length>0 && desc){
+    const reader=new FileReader();
+    reader.onload=(e)=>{
+      const url=e.target.result;
+      createPhotoCard(url,desc);
+
+      const currentAlbum=JSON.parse(localStorage.getItem("albumPhotos")||"[]");
+      currentAlbum.push({url,desc});
+      localStorage.setItem("albumPhotos",JSON.stringify(currentAlbum));
+    };
+    reader.readAsDataURL(fileInput.files[0]);
+    closeAddPhoto();
+    fileInput.value="";
+    document.getElementById("photo-desc").value="";
+  } else alert("Будь ласка, вибери фото та введи опис!");
+};
+</script>
+
+</body>
+</html>

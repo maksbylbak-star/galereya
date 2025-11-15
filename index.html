@@ -5,14 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Для Ані 💗</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400&display=swap');
 
-body{margin:0;padding:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circle at 30% 30%, #330d1a 0%, #4d0f2f 50%, #2b0a1a 100%);overflow-x:hidden;}
-
-/* ЗАСТАВКА */
-#preloader{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(120deg,#3a0a1b,#621c3a,#3a0a1b);background-size:400% 400%;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;opacity:1;transition:opacity 2s ease;animation:gradientShift 8s ease-in-out infinite;overflow:hidden;}
+body{margin:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circle at 30% 30%,#330d1a 0%,#4d0f2f 50%,#2b0a1a 100%);overflow-x:hidden;}
+#preloader{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(120deg,#3a0a1b,#621c3a,#3a0a1b);background-size:400% 400%;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;animation:gradientShift 8s ease-in-out infinite;overflow:hidden;}
 @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .preloader-content{text-align:center;color:#ffd9e8;font-family:'Great Vibes',cursive;position:relative;z-index:2;animation:fadeInText 2s ease forwards;}
 @keyframes fadeInText{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
@@ -22,60 +19,47 @@ body{margin:0;padding:0;font-family:'Open Sans',sans-serif;background:radial-gra
 #enter-btn:hover{background: rgba(255,153,204,0.3); transform: scale(1.05); box-shadow:0 0 15px #ff99cc;}
 .hearts-bg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;z-index:1;}
 
-/* ОСНОВА */
 .main-content{opacity:0;animation:fadeInMain 2s ease forwards;padding:40px 20px 120px 20px;max-width:900px;margin:auto;text-align:center;position:relative;}
 @keyframes fadeInMain{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
 .main-title{font-family:'Great Vibes',cursive;font-size:3rem;color:#ff99cc;text-shadow:0 0 15px rgba(255,160,200,0.6);margin-bottom:25px;}
+
 .album{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:25px;margin-top:30px;}
-.photo-card{background: rgba(255,255,255,0.05);backdrop-filter: blur(6px);border-radius:20px;padding:15px;box-shadow:0 0 12px rgba(255,120,180,0.3);transition: transform .4s ease, box-shadow .4s ease;animation:fadeCard 1s ease forwards;opacity:0;position:relative;}
-@keyframes fadeCard{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-.photo-card:hover{transform:scale(1.03);box-shadow:0 0 25px rgba(255,160,210,0.6);}
+.photo-card{background: rgba(255,255,255,0.05);backdrop-filter: blur(6px);border-radius:20px;padding:15px;box-shadow:0 0 12px rgba(255,120,180,0.3);transition: transform .4s ease, box-shadow .4s ease;opacity:0;cursor:pointer;}
 .photo-card img{width:100%;height:270px;border-radius:15px;object-fit:cover;}
 .photo-description{margin-top:10px;color:#ffb4d4;font-family:'Open Sans',sans-serif;font-size:0.95rem;text-shadow:0 0 5px rgba(255,100,150,0.4);}
+.delete-btn{margin-top:5px;padding:5px 10px;background:#ff6fa3;color:white;border:none;border-radius:12px;cursor:pointer;}
 
-/* Видалити фото кнопка */
-.delete-btn{display:none;position:absolute;top:10px;right:10px;padding:4px 8px;border:none;border-radius:8px;background:#ff6fa3;color:white;cursor:pointer;font-size:0.9rem;}
-.photo-card:hover .delete-btn{display:block;}
-
-/* Послання */
-.message-box{margin-top:60px;padding:25px;background: rgba(255,255,255,0.05);border-radius:20px;backdrop-filter:blur(6px);box-shadow:0 0 15px rgba(255,150,200,0.4);animation:fadeInMessage 2s ease forwards;}
-@keyframes fadeInMessage{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.message-box{margin-top:60px;padding:25px;background: rgba(255,255,255,0.05);border-radius:20px;backdrop-filter:blur(6px);box-shadow:0 0 15px rgba(255,150,200,0.4);}
 .message-title{font-family:'Great Vibes',cursive;font-size:2.6rem;color:#ff99cc;margin-bottom:10px;}
 .message-text{color:#ffbed9;font-size:1.1rem;line-height:1.7;}
 
-/* Мерехтіння + пелюстки */
 .sparkle{position:fixed;width:6px;height:6px;background:white;border-radius:50%;pointer-events:none;animation:sparkleAnim 2s linear infinite;opacity:0.7;}
 @keyframes sparkleAnim{from{transform:translateY(0) scale(1);}to{transform:translateY(-60px) scale(0);}}
 .petal{position:fixed;top:-10px;font-size:22px;animation:fallPetal linear infinite;opacity:0.9;}
 @keyframes fallPetal{0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(100vh) rotate(360deg);}}
 
-/* Музика */
-.music-control{position:fixed;bottom:20px;background: rgba(102, 17, 68,0.6);border:2px solid #ff99cc;padding:10px 25px;border-radius:25px;color:#ff99cc;font-size:16px;cursor:pointer;z-index:10;backdrop-filter:blur(4px);transition:.3s;}
+.music-control{position:fixed;bottom:20px;background: rgba(102,17,68,0.6);border:2px solid #ff99cc;padding:10px 25px;border-radius:25px;color:#ff99cc;font-size:16px;cursor:pointer;z-index:10;backdrop-filter:blur(4px);}
 .music-control:hover{transform:scale(1.05);background: rgba(136,34,85,0.8);box-shadow:0 0 15px #ff99cc;}
 
-/* Модальне фото */
 .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);display:none;justify-content:center;align-items:center;z-index:99999;}
 .modal img{max-width:80%;max-height:80%;border-radius:20px;box-shadow:0 0 20px rgba(255,120,180,0.8);}
 .modal-close{position:absolute;top:20px;right:40px;font-size:2.6rem;color:white;cursor:pointer;}
 
-/* Кнопка додати фото */
 #add-photo-btn{position:fixed;top:20px;right:20px;background:rgba(255,192,203,0.25);border:2px solid #ff99cc;padding:10px 20px;border-radius:20px;color:#ffd1dc;cursor:pointer;z-index:20;}
 #add-photo-btn:hover{background:rgba(255,153,204,0.45);}
 </style>
 </head>
 <body>
 
-<!-- ЗАСТАВКА -->
 <div id="preloader">
   <div class="hearts-bg"></div>
   <div class="preloader-content">
     <h2>Для тебе 💌</h2>
-    <p>Тут зібране все те, що я маю...</p>
+    <p>Тут зібране все те, що я поки що маю...</p>
     <button id="enter-btn">Увійти 💖</button>
   </div>
 </div>
 
-<!-- ОСНОВА -->
 <div class="main-content" id="main">
   <h2 class="main-title">Моя принцеса 💗</h2>
   <div class="album" id="album"></div>
@@ -96,17 +80,14 @@ body{margin:0;padding:0;font-family:'Open Sans',sans-serif;background:radial-gra
 
 <button class="music-control" onclick="toggleMusic()">🎵 Музика</button>
 <audio id="bg-music" loop><source src="music.mp3" type="audio/mpeg"></audio>
-
-<!-- Кнопка додати фото -->
 <button id="add-photo-btn">➕ Додати фото</button>
 
-<!-- Модальне вікно додати фото -->
+<!-- Модальне додавання фото -->
 <div class="modal" id="add-photo-modal">
   <div style="background: rgba(0,0,0,0.8); padding:25px; border-radius:15px; text-align:center; max-width:400px; width:90%;">
     <h2 style="color:#ff99cc; font-family:'Great Vibes',cursive;">Додати фото 💖</h2>
-    <input id="photo-url" type="text" placeholder="Встав URL картинки" style="width:90%; padding:8px; margin:10px 0; border-radius:8px; border:none;">
-    <input id="photo-desc" type="text" placeholder="Введи опис" style="width:90%; padding:8px; margin:10px 0; border-radius:8px; border:none;">
-    <br>
+    <input type="file" id="photo-file"><br>
+    <input id="photo-desc" type="text" placeholder="Введи опис"><br>
     <button id="save-photo" style="margin-top:10px; padding:8px 20px; border-radius:15px; border:none; background:#ff99cc; color:white; cursor:pointer;">Додати</button>
     <button onclick="closeAddPhoto()" style="margin-top:10px; padding:8px 20px; border-radius:15px; border:none; background:#ff6fa3; color:white; cursor:pointer;">Скасувати</button>
   </div>
@@ -118,84 +99,96 @@ body{margin:0;padding:0;font-family:'Open Sans',sans-serif;background:radial-gra
   <img id="modal-img">
 </div>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-storage.js";
 
-<script>
-// Firebase init
 const firebaseConfig = {
   apiKey: "AIzaSyAj1aM_i39eq42FdFUw9-QZeq0gJhQwb-E",
   authDomain: "galereya-ani.firebaseapp.com",
   projectId: "galereya-ani",
   storageBucket: "galereya-ani.appspot.com",
   messagingSenderId: "564788961310",
-  appId: "1:564788961310:web:64512d257bca9aaa18ce0f"
+  appId: "1:564788961310:web:64512d257bca9aaa18ce0f",
+  measurementId: "G-1W2LH0LDTW"
 };
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const storage = firebase.storage();
 
-// Заставка
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+/* ===== ЗАСТАВКА ===== */
 const music=document.getElementById("bg-music");
 function fadeInMusic(){music.volume=0; const iv=setInterval(()=>{if(music.volume<0.4) music.volume+=0.02; else clearInterval(iv)},200);}
-document.getElementById("enter-btn").onclick=()=>{music.play().then(()=>fadeInMusic()); const p=document.getElementById("preloader"); p.style.opacity="0"; setTimeout(()=>p.remove(),2500);}
+document.getElementById("enter-btn").onclick=()=>{
+  music.play().then(()=>fadeInMusic());
+  const p=document.getElementById("preloader");
+  p.style.opacity="0"; setTimeout(()=>p.remove(),2500);
+};
 function toggleMusic(){if(music.paused) music.play(); else music.pause();}
 
-// Пелюстки
-setInterval(()=>{const p=document.createElement("div");p.classList.add("petal");p.innerHTML="🌸";p.style.left=Math.random()*100+"vw";p.style.animationDuration=4+Math.random()*4+"s";document.body.appendChild(p);setTimeout(()=>p.remove(),8000);},500);
+/* Пелюстки */
+setInterval(()=>{
+  const p=document.createElement("div"); p.classList.add("petal"); p.innerHTML="🌸";
+  p.style.left=Math.random()*100+"vw"; p.style.animationDuration=4+Math.random()*4+"s";
+  document.body.appendChild(p); setTimeout(()=>p.remove(),8000);
+},500);
 
-// Мерехтіння
-setInterval(()=>{const s=document.createElement("div");s.classList.add("sparkle");s.style.left=Math.random()*100+"vw";s.style.top=Math.random()*100+"vh";s.style.animationDuration=(1+Math.random())+"s";document.body.appendChild(s);setTimeout(()=>s.remove(),1500);},300);
+/* Мерехтіння */
+setInterval(()=>{
+  const s=document.createElement("div"); s.classList.add("sparkle");
+  s.style.left=Math.random()*100+"vw"; s.style.top=Math.random()*100+"vh";
+  s.style.animationDuration=(1+Math.random())+"s";
+  document.body.appendChild(s); setTimeout(()=>s.remove(),1500);
+},300);
 
-// Модальне фото
+/* Модальне фото */
 function closeGallery(){document.getElementById("gallery-modal").style.display="none";}
-
-// Додати фото модальне
-document.getElementById("add-photo-btn").onclick=()=>{document.getElementById("add-photo-modal").style.display="flex";}
 function closeAddPhoto(){document.getElementById("add-photo-modal").style.display="none";}
 
-// Додавання фото у Firestore
-document.getElementById("save-photo").onclick=()=>{
-  const url=document.getElementById("photo-url").value.trim();
-  const desc=document.getElementById("photo-desc").value.trim();
-  if(url && desc){
-    db.collection('photos').add({url, desc, timestamp: firebase.firestore.FieldValue.serverTimestamp()});
-    closeAddPhoto();
-    document.getElementById("photo-url").value="";
-    document.getElementById("photo-desc").value="";
-  } else alert("Будь ласка, введи URL та опис!");
-};
+/* Додати фото */
+document.getElementById("add-photo-btn").onclick=()=>{document.getElementById("add-photo-modal").style.display="flex";}
 
-// Показ фото у реальному часі та кнопка видалити
-const album = document.getElementById('album');
-db.collection('photos').orderBy('timestamp').onSnapshot(snapshot=>{
-  album.innerHTML='';
-  snapshot.forEach(doc=>{
-    const data=doc.data();
-    const card=document.createElement('div');
-    card.classList.add('photo-card');
-    card.innerHTML=`
-      <img src="${data.url}">
-      <div class="photo-description">${data.desc}</div>
-      <button class="delete-btn">🗑 Видалити</button>
-    `;
+const album = document.getElementById("album");
+const photosCol = collection(db, "photos");
+
+/* Додаємо нове фото у Firebase */
+document.getElementById("save-photo").onclick=async()=>{
+  const fileInput = document.getElementById("photo-file");
+  const descInput = document.getElementById("photo-desc");
+  const file = fileInput.files[0];
+  const desc = descInput.value.trim();
+  if(!file || !desc){alert("Оберіть фото і введіть опис!"); return;}
+
+  const storageRef = ref(storage, `photos/${Date.now()}_${file.name}`);
+  await uploadBytes(storageRef, file);
+  const url = await getDownloadURL(storageRef);
+  await addDoc(photosCol, {url, desc, timestamp:Date.now()});
+  fileInput.value=""; descInput.value="";
+  closeAddPhoto();
+}
+
+/* Вивід фото у реальному часі */
+const q = query(photosCol, orderBy("timestamp"));
+onSnapshot(q, snapshot=>{
+  album.innerHTML="";
+  snapshot.forEach(docSnap=>{
+    const data = docSnap.data();
+    const card = document.createElement("div");
+    card.classList.add("photo-card");
+    card.innerHTML=`<img src="${data.url}"><div class="photo-description">${data.desc}</div><button class="delete-btn">Видалити</button>`;
     album.appendChild(card);
 
-    card.querySelector('img').addEventListener('click',()=>{
-      document.getElementById('gallery-modal').style.display='flex';
-      document.getElementById('modal-img').src=data.url;
-    });
-
-    card.querySelector('.delete-btn').addEventListener('click',()=>{
-      if(confirm("Видалити це фото?")){
-        db.collection('photos').doc(doc.id).delete();
-      }
-    });
+    card.querySelector("img").onclick=()=>{document.getElementById("gallery-modal").style.display="flex"; document.getElementById("modal-img").src=data.url;}
+    card.querySelector(".delete-btn").onclick=async()=>{
+      await deleteDoc(doc(db,"photos",docSnap.id));
+      const fileRef = ref(storage, data.url);
+      await deleteObject(fileRef).catch(()=>{});
+    }
   });
 });
 </script>
-
 </body>
 </html>

@@ -1,64 +1,64 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Галерея наших альбомів💖</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400;600&display=swap');
 :root{--bg1:#330d1a;--bg2:#4d0f2f;--accent:#ff99cc;--muted:#ffbed9}
-*{box-sizing:border-box}
-body{margin:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circle at 30% 30%, var(--bg1),var(--bg2));color:var(--muted);min-height:100vh}
-.container{max-width:980px;margin:28px auto;padding:20px}
-.header{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.title{font-family:'Great Vibes',cursive;color:var(--accent);font-size:2.6rem}
-.controls{display:flex;gap:10px;align-items:center}
-.btn{background:rgba(255,153,204,0.18);border:1px solid rgba(255,153,204,0.35);padding:8px 12px;border-radius:12px;color:var(--accent);cursor:pointer}
-.btn:hover{transform:scale(1.03)}
-.small{padding:6px 8px;border-radius:10px;font-size:0.95rem}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Open Sans',sans-serif;background:radial-gradient(circle at 30% 30%, var(--bg1),var(--bg2));color:var(--muted);min-height:100vh;}
+.container{max-width:980px;margin:16px auto;padding:12px;}
+.header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;}
+.title{font-family:'Great Vibes',cursive;color:var(--accent);font-size:2rem;}
+.controls{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{background:rgba(255,153,204,0.18);border:1px solid rgba(255,153,204,0.35);padding:6px 10px;border-radius:10px;color:var(--accent);cursor:pointer;font-size:0.95rem;}
+.btn:hover{transform:scale(1.03);}
+.small{padding:4px 6px;border-radius:8px;font-size:0.85rem;}
 
 /* ALBUMS */
-#albums-view{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px;margin-top:18px}
-.album-card{position:relative;background:rgba(255,255,255,0.03);border-radius:14px;padding:10px;overflow:hidden;cursor:pointer;transition:transform .18s,box-shadow .18s}
-.album-card:hover{transform:translateY(-6px);box-shadow:0 6px 18px rgba(0,0,0,0.4)}
-.album-cover{width:100%;height:140px;object-fit:cover;border-radius:10px;background:#220912}
-.album-meta{padding:8px 6px;text-align:center}
-.album-name{font-weight:600;color:#ffd1e6}
-.album-count{font-size:0.85rem;color:#ffc8da;margin-top:6px}
-.album-actions{position:absolute;top:8px;right:8px;display:flex;gap:6px}
-.icon-btn{width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+#albums-view{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
+.album-card{position:relative;background:rgba(255,255,255,0.03);border-radius:12px;padding:6px;overflow:hidden;cursor:pointer;transition:transform .18s,box-shadow .18s;}
+.album-card:hover{transform:translateY(-4px);box-shadow:0 4px 12px rgba(0,0,0,0.4);}
+.album-cover{width:100%;height:120px;object-fit:cover;border-radius:8px;background:#220912;}
+.album-meta{padding:6px 4px;text-align:center;}
+.album-name{font-weight:600;color:#ffd1e6;font-size:0.95rem;}
+.album-count{font-size:0.75rem;color:#ffc8da;margin-top:4px;}
+.album-actions{position:absolute;top:4px;right:4px;display:flex;gap:4px;}
+.icon-btn{width:28px;height:28px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.85rem;}
 .icon-edit{background:#ff99cc;color:#3b0020}
 .icon-del{background:#ff3b6b;color:white}
 
 /* PHOTOS */
-#photos-section{display:none;margin-top:16px}
-.back-btn{color:var(--accent);cursor:pointer;margin-bottom:10px}
-.album-title{font-family:'Great Vibes',cursive;color:var(--accent);font-size:1.8rem;margin:6px 0}
-.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:10px}
-.photo-card{position:relative;background:rgba(255,255,255,0.02);padding:10px;border-radius:12px}
-.photo-card img{width:100%;height:220px;object-fit:cover;border-radius:8px;display:block}
-.photo-desc{margin-top:8px;color:#ffc8da;font-size:0.95rem;min-height:1.2em}
-.delete-btn{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,0,70,0.9);color:white;cursor:pointer}
+#photos-section{display:none;margin-top:12px;}
+.back-btn{color:var(--accent);cursor:pointer;margin-bottom:6px;}
+.album-title{font-family:'Great Vibes',cursive;color:var(--accent);font-size:1.5rem;margin:4px 0;}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:8px;}
+.photo-card{position:relative;background:rgba(255,255,255,0.02);padding:6px;border-radius:10px;}
+.photo-card img{width:100%;height:160px;object-fit:cover;border-radius:6px;display:block;}
+.photo-desc{margin-top:4px;color:#ffc8da;font-size:0.85rem;min-height:1em;}
+.delete-btn{position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,0,70,0.9);color:white;cursor:pointer;font-size:0.8rem;}
 
 /* MODALS */
-.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:1200}
-.modal-box{background:#2b0a1a;padding:18px;border-radius:12px;width:92%;max-width:420px;color:var(--muted);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
-.modal-box h3{margin:0 0 10px 0;color:var(--accent);font-family:'Great Vibes',cursive}
-.input{width:100%;padding:10px;border-radius:10px;border:none;margin:8px 0}
-.modal-actions{display:flex;gap:8px;justify-content:center;margin-top:10px}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:1200;}
+.modal-box{background:#2b0a1a;padding:12px;border-radius:10px;width:90%;max-width:360px;color:var(--muted);box-shadow:0 8px 20px rgba(0,0,0,0.6);}
+.modal-box h3{margin:0 0 8px 0;color:var(--accent);font-family:'Great Vibes',cursive;font-size:1.2rem;}
+.input{width:100%;padding:8px;border-radius:8px;border:none;margin:6px 0;font-size:0.9rem;}
+.modal-actions{display:flex;gap:6px;justify-content:center;margin-top:6px;}
 
 /* IMAGE VIEWER */
-.viewer-img{max-width:90vw;max-height:80vh;border-radius:12px}
-.viewer-close{position:absolute;top:16px;right:22px;font-size:28px;color:#fff;cursor:pointer}
+.viewer-img{max-width:90vw;max-height:70vh;border-radius:10px;}
+.viewer-close{position:absolute;top:10px;right:14px;font-size:24px;color:#fff;cursor:pointer;}
 
 /* MUSIC PLAYER */
-#music-player{position:fixed;bottom:0;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.4);padding:8px 14px;border-radius:12px;display:flex;align-items:center;gap:8px;z-index:1000}
+#music-player{position:fixed;bottom:6px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.4);padding:6px 10px;border-radius:10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;z-index:1000;font-size:0.9rem;}
 
 /* toast */
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:70px;background:rgba(0,0,0,0.6);padding:8px 14px;border-radius:10px;display:none}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:70px;background:rgba(0,0,0,0.6);padding:6px 10px;border-radius:8px;display:none;font-size:0.85rem;}
 
-.note{font-size:0.95rem;color:#ffd9e9;margin-top:8px;cursor:pointer;}
+.note{font-size:0.85rem;color:#ffd9e9;margin-top:6px;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -79,7 +79,7 @@ body{margin:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circ
   <div id="photos-section">
     <div class="back-btn" id="back-to-albums">⬅ Назад до альбомів</div>
     <div class="album-title" id="current-album-name"></div>
-    <div style="margin:8px 0"><button class="btn" id="btn-add-photo">➕ Додати фото</button></div>
+    <div style="margin:6px 0"><button class="btn" id="btn-add-photo">➕ Додати фото</button></div>
     <div class="photo-grid" id="photo-grid"></div>
   </div>
 </div>
@@ -88,8 +88,8 @@ body{margin:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circ
 <div class="modal" id="modal-add-album">
   <div class="modal-box">
     <h3>Новий альбом</h3>
-    <input class="input" id="input-album-name" placeholder="Назва альбому" />
-    <input class="input" id="input-album-cover" type="file" accept="image/*" />
+    <input class="input" id="input-album-name" placeholder="Назва альбому">
+    <input class="input" id="input-album-cover" type="file" accept="image/*">
     <div class="modal-actions">
       <button class="btn" id="save-album">Створити</button>
       <button class="btn" id="cancel-album">Скасувати</button>
@@ -100,8 +100,8 @@ body{margin:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circ
 <div class="modal" id="modal-add-photo">
   <div class="modal-box">
     <h3>Додати фото</h3>
-    <input class="input" id="input-photo-file" type="file" accept="image/*" />
-    <input class="input" id="input-photo-desc" placeholder="Опис (необов'язково)" />
+    <input class="input" id="input-photo-file" type="file" accept="image/*">
+    <input class="input" id="input-photo-desc" placeholder="Опис (необов'язково)">
     <div class="modal-actions">
       <button class="btn" id="save-photo">Додати</button>
       <button class="btn" id="cancel-photo">Скасувати</button>
@@ -112,8 +112,8 @@ body{margin:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circ
 <div class="modal" id="modal-edit-album">
   <div class="modal-box">
     <h3>Редагувати альбом</h3>
-    <input class="input" id="edit-album-name" placeholder="Нова назва" />
-    <input class="input" id="edit-album-cover" type="file" accept="image/*" />
+    <input class="input" id="edit-album-name" placeholder="Нова назва">
+    <input class="input" id="edit-album-cover" type="file" accept="image/*">
     <div class="modal-actions">
       <button class="btn" id="save-edit-album">Зберегти</button>
       <button class="btn" id="cancel-edit-album">Скасувати</button>
@@ -124,14 +124,17 @@ body{margin:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circ
 <div class="modal" id="modal-view-image">
   <div style="position:relative">
     <span class="viewer-close" id="viewer-close">&times;</span>
-    <img class="viewer-img" id="viewer-img" src="" alt="" />
+    <img class="viewer-img" id="viewer-img" src="" alt="">
   </div>
 </div>
 
 <!-- Музика -->
 <div id="music-player">
-  <input type="file" id="music-file" accept="audio/*"/>
-  <audio id="bg-music" controls></audio>
+  <button id="music-toggle" class="btn">🎵 Музика</button>
+  <input type="file" id="music-files" accept="audio/*" multiple style="display:none">
+  <audio id="bg-music" controls style="display:none;"></audio>
+  <button id="prev-track" class="btn" style="display:none;">⏮️</button>
+  <button id="next-track" class="btn" style="display:none;">⏭️</button>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -152,29 +155,45 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Стан
+// --- STATE ---
 let currentAlbumId = null;
 let editingAlbumId = null;
 const placeholder = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><rect width='100%' height='100%' fill='%23220a12'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23ff99cc'>Альбом</text></svg>";
 
-// Елементи
+// --- ELEMENTS ---
 const albumsView = document.getElementById('albums-view');
 const photoGrid = document.getElementById('photo-grid');
 const mainNote = document.getElementById('main-note');
 
-// --- Музика ---
-const musicFile = document.getElementById('music-file');
+// --- MUSIC ---
+const musicToggle = document.getElementById('music-toggle');
+const musicFiles = document.getElementById('music-files');
 const bgMusic = document.getElementById('bg-music');
-musicFile.addEventListener('change', ()=>{
-  const file = musicFile.files[0];
-  if(file){
-    const url = URL.createObjectURL(file);
-    bgMusic.src = url;
+const prevTrack = document.getElementById('prev-track');
+const nextTrack = document.getElementById('next-track');
+let tracks = [];
+let currentTrack = 0;
+
+musicToggle.addEventListener('click', ()=>musicFiles.click());
+musicFiles.addEventListener('change', ()=>{
+  tracks = Array.from(musicFiles.files).map(file => URL.createObjectURL(file));
+  if(tracks.length){
+    currentTrack=0; bgMusic.src = tracks[currentTrack];
+    bgMusic.style.display='inline'; prevTrack.style.display='inline'; nextTrack.style.display='inline';
     bgMusic.play();
   }
 });
+nextTrack.addEventListener('click', ()=>{
+  if(tracks.length){ currentTrack=(currentTrack+1)%tracks.length; bgMusic.src=tracks[currentTrack]; bgMusic.play();}
+});
+prevTrack.addEventListener('click', ()=>{
+  if(tracks.length){ currentTrack=(currentTrack-1+tracks.length)%tracks.length; bgMusic.src=tracks[currentTrack]; bgMusic.play();}
+});
+bgMusic.addEventListener('ended', ()=>{
+  if(tracks.length){ currentTrack=(currentTrack+1)%tracks.length; bgMusic.src=tracks[currentTrack]; bgMusic.play();}
+});
 
-// --- UI ---
+// --- UI HELPERS ---
 const btnAddAlbum = document.getElementById('btn-add-album');
 const modalAddAlbum = document.getElementById('modal-add-album');
 const inputAlbumName = document.getElementById('input-album-name');
@@ -200,38 +219,37 @@ const viewerImg = document.getElementById('viewer-img');
 const viewerClose = document.getElementById('viewer-close');
 
 const toast = document.getElementById('toast');
-function showToast(text){ toast.textContent = text; toast.style.display = 'block'; setTimeout(()=> toast.style.display='none',2200); }
-function openModal(modal){ modal.style.display = 'flex'; }
-function closeModal(modal){ modal.style.display = 'none'; }
+function showToast(text){ toast.textContent=text; toast.style.display='block'; setTimeout(()=>toast.style.display='none',2200);}
+function openModal(modal){ modal.style.display='flex'; }
+function closeModal(modal){ modal.style.display='none'; }
 
 // --- ALBUMS ---
 function renderAlbums(){
-  albumsView.innerHTML = '';
+  albumsView.innerHTML='';
   db.collection('albums').orderBy('createdAt','desc').get().then(snapshot=>{
-    if(snapshot.empty){ albumsView.innerHTML = '<div style="text-align:center;color:#ffc8da">Пусто — створи альбом</div>'; return; }
+    if(snapshot.empty){ albumsView.innerHTML='<div style="text-align:center;color:#ffc8da">Пусто — створи альбом</div>'; return;}
     snapshot.forEach(doc=>{
-      const data = doc.data();
-      const card = document.createElement('div');
-      card.className = 'album-card';
-      const cover = data.coverUrl || placeholder;
-      card.innerHTML = `
+      const data=doc.data();
+      const card=document.createElement('div'); card.className='album-card';
+      const cover=data.coverUrl||placeholder;
+      card.innerHTML=`
         <div class="album-actions">
           <button class="icon-btn icon-edit" title="Редагувати">✏️</button>
           <button class="icon-btn icon-del" title="Видалити">🗑</button>
         </div>
-        <img class="album-cover" src="${cover}" alt="cover" />
+        <img class="album-cover" src="${cover}" alt="cover"/>
         <div class="album-meta">
           <div class="album-name">${escapeHtml(data.name)}</div>
           <div class="album-count" id="count-${doc.id}">завантаження...</div>
         </div>
       `;
-      card.addEventListener('click',()=> openAlbum(doc.id, data.name));
-      card.querySelector('.icon-del').addEventListener('click', (e)=>{ e.stopPropagation(); deleteAlbum(doc.id); });
-      card.querySelector('.icon-edit').addEventListener('click', (e)=>{ e.stopPropagation(); openEditAlbum(doc.id, data); });
+      card.addEventListener('click',()=>openAlbum(doc.id,data.name));
+      card.querySelector('.icon-del').addEventListener('click',(e)=>{ e.stopPropagation(); deleteAlbum(doc.id); });
+      card.querySelector('.icon-edit').addEventListener('click',(e)=>{ e.stopPropagation(); openEditAlbum(doc.id,data); });
       albumsView.appendChild(card);
       db.collection('albums').doc(doc.id).collection('photos').get().then(s=>{
-        const el = document.getElementById(`count-${doc.id}`);
-        if(el) el.textContent = s.size + ' фото';
+        const el=document.getElementById(`count-${doc.id}`);
+        if(el) el.textContent=s.size+' фото';
       }).catch(()=>{});
     });
   }).catch(err=>{ console.error(err); showToast('Помилка завантаження альбомів'); });
@@ -239,124 +257,103 @@ function renderAlbums(){
 renderAlbums();
 
 function openAlbum(id,name){
-  currentAlbumId = id;
-  document.getElementById('albums-section').style.display = 'none';
-  document.getElementById('photos-section').style.display = 'block';
-  document.getElementById('current-album-name').textContent = name;
+  currentAlbumId=id;
+  document.getElementById('albums-section').style.display='none';
+  document.getElementById('photos-section').style.display='block';
+  document.getElementById('current-album-name').textContent=name;
   renderPhotos();
 }
-document.getElementById('back-to-albums').addEventListener('click', ()=>{
-  currentAlbumId = null;
-  document.getElementById('photos-section').style.display = 'none';
-  document.getElementById('albums-section').style.display = 'block';
+document.getElementById('back-to-albums').addEventListener('click',()=>{
+  currentAlbumId=null;
+  document.getElementById('photos-section').style.display='none';
+  document.getElementById('albums-section').style.display='block';
 });
 
+// --- ALBUM CRUD ---
 function deleteAlbum(id){
   if(!confirm('Видалити альбом? Усі фото також будуть видалені.')) return;
-  const ref = db.collection('albums').doc(id);
+  const ref=db.collection('albums').doc(id);
   ref.collection('photos').get().then(s=>{
-    const batch = db.batch();
-    s.forEach(doc=> batch.delete(ref.collection('photos').doc(doc.id)));
-    batch.commit().then(()=> ref.delete().then(()=> showToast('Альбом видалено')).then(()=> renderAlbums()))
-    .catch(err=>{ console.error(err); showToast('Помилка при видаленні фото'); });
-  }).catch(err=>{ console.error(err); showToast('Помилка доступу до альбому'); });
+    const batch=db.batch();
+    s.forEach(doc=>batch.delete(ref.collection('photos').doc(doc.id)));
+    batch.commit().then(()=>ref.delete().then(()=>{ showToast('Альбом видалено'); renderAlbums(); }))
+    .catch(err=>{ console.error(err); showToast('Помилка'); });
+  }).catch(err=>{ console.error(err); showToast('Помилка'); });
 }
-
 function openEditAlbum(id,data){
-  editingAlbumId = id;
-  inputEditAlbumName.value = data.name || '';
-  inputEditAlbumCover.value = null;
+  editingAlbumId=id;
+  inputEditAlbumName.value=data.name||'';
+  inputEditAlbumCover.value=null;
   openModal(modalEditAlbum);
 }
-btnSaveEditAlbum.addEventListener('click', ()=>{
-  const newName = inputEditAlbumName.value.trim();
-  const file = inputEditAlbumCover.files[0];
-  if(!newName && !file){ showToast('Нічого не змінено'); closeModal(modalEditAlbum); return; }
+btnSaveEditAlbum.addEventListener('click',()=>{
+  const newName=inputEditAlbumName.value.trim();
+  const file=inputEditAlbumCover.files[0];
+  if(!newName && !file){ showToast('Нічого не змінено'); closeModal(modalEditAlbum); return;}
   if(file){
-    const r = new FileReader();
-    r.onload = e=>{
-      db.collection('albums').doc(editingAlbumId).update({ name:newName || undefined, coverUrl:e.target.result }).then(()=>{ showToast('Альбом оновлено'); closeModal(modalEditAlbum); renderAlbums(); }).catch(err=>{ console.error(err); showToast('Помилка'); });
-    };
-    r.readAsDataURL(file);
-  } else {
-    db.collection('albums').doc(editingAlbumId).update({ name:newName }).then(()=>{ showToast('Альбом оновлено'); closeModal(modalEditAlbum); renderAlbums(); }).catch(err=>{ console.error(err); showToast('Помилка'); });
-  }
+    const r=new FileReader(); r.onload=e=>{
+      db.collection('albums').doc(editingAlbumId).update({name:newName||undefined,coverUrl:e.target.result}).then(()=>{ showToast('Альбом оновлено'); closeModal(modalEditAlbum); renderAlbums(); });
+    }; r.readAsDataURL(file);
+  } else { db.collection('albums').doc(editingAlbumId).update({name:newName}).then(()=>{ showToast('Альбом оновлено'); closeModal(modalEditAlbum); renderAlbums(); }); }
 });
-btnCancelEditAlbum.addEventListener('click', ()=> closeModal(modalEditAlbum));
+btnCancelEditAlbum.addEventListener('click',()=>closeModal(modalEditAlbum));
 
 // --- PHOTOS ---
 function renderPhotos(){
-  photoGrid.innerHTML = '';
+  photoGrid.innerHTML='';
   if(!currentAlbumId) return;
   db.collection('albums').doc(currentAlbumId).collection('photos').orderBy('timestamp','asc').get().then(snapshot=>{
-    if(snapshot.empty){ photoGrid.innerHTML = '<div style="text-align:center;color:#ffc8da">У цьому альбомі немає фото</div>'; return; }
+    if(snapshot.empty){ photoGrid.innerHTML='<div style="text-align:center;color:#ffc8da">У цьому альбомі немає фото</div>'; return;}
     snapshot.forEach(doc=>{
-      const p = doc.data();
-      const pc = document.createElement('div'); pc.className='photo-card';
-      const url = p.url || '';
-      const desc = p.desc || '';
-      const img = document.createElement('img'); img.alt = desc; img.loading='lazy';
-      img.src = url.startsWith('data:image') ? url : placeholder;
-      img.onerror = ()=>{ img.src = placeholder; };
-      const descDiv = document.createElement('div'); descDiv.className='photo-desc'; descDiv.textContent = desc;
-      const delBtn = document.createElement('button'); delBtn.className='delete-btn'; delBtn.title='Видалити'; delBtn.textContent='🗑';
-      img.addEventListener('click', ()=>{ openViewer(url, desc); });
-      delBtn.addEventListener('click', (e)=>{ e.stopPropagation(); deletePhoto(doc.id); });
-      pc.appendChild(img);
-      pc.appendChild(delBtn);
-      pc.appendChild(descDiv);
-      photoGrid.appendChild(pc);
+      const p=doc.data();
+      const pc=document.createElement('div'); pc.className='photo-card';
+      const url=p.url||''; const desc=p.desc||'';
+      const img=document.createElement('img'); img.alt=desc; img.loading='lazy';
+      img.src=url.startsWith('data:image')?url:placeholder; img.onerror=()=>{ img.src=placeholder; };
+      const descDiv=document.createElement('div'); descDiv.className='photo-desc'; descDiv.textContent=desc;
+      const delBtn=document.createElement('button'); delBtn.className='delete-btn'; delBtn.title='Видалити'; delBtn.textContent='🗑';
+      img.addEventListener('click',()=>openViewer(url,desc));
+      delBtn.addEventListener('click',(e)=>{ e.stopPropagation(); deletePhoto(doc.id); });
+      pc.appendChild(img); pc.appendChild(delBtn); pc.appendChild(descDiv); photoGrid.appendChild(pc);
     });
   }).catch(err=>{ console.error(err); showToast('Помилка завантаження фото'); });
 }
 
-// --- Додати альбом ---
-btnAddAlbum.addEventListener('click', ()=>{ inputAlbumName.value=''; inputAlbumCover.value=null; openModal(modalAddAlbum); });
-btnCancelAlbum.addEventListener('click', ()=> closeModal(modalAddAlbum));
-btnSaveAlbum.addEventListener('click', ()=>{
-  const name = inputAlbumName.value.trim(); const file = inputAlbumCover.files[0];
+// --- ADD ALBUM/PHOTO ---
+btnAddAlbum.addEventListener('click',()=>{ inputAlbumName.value=''; inputAlbumCover.value=null; openModal(modalAddAlbum); });
+btnCancelAlbum.addEventListener('click',()=>closeModal(modalAddAlbum));
+btnSaveAlbum.addEventListener('click',()=>{
+  const name=inputAlbumName.value.trim(); const file=inputAlbumCover.files[0];
   if(!name){ alert('Введіть назву'); return; }
-  if(file){ const r = new FileReader(); r.onload = e=>{ db.collection('albums').add({ name:name, coverUrl:e.target.result, createdAt: firebase.firestore.FieldValue.serverTimestamp() }).then(()=>{ showToast('Альбом створено'); closeModal(modalAddAlbum); renderAlbums(); }).catch(err=>{ console.error(err); showToast('Помилка'); }); }; r.readAsDataURL(file); }
-  else{ db.collection('albums').add({ name:name, coverUrl:placeholder, createdAt: firebase.firestore.FieldValue.serverTimestamp() }).then(()=>{ showToast('Альбом створено'); closeModal(modalAddAlbum); renderAlbums(); }).catch(err=>{ console.error(err); showToast('Помилка'); }); }
+  if(file){ const r=new FileReader(); r.onload=e=>{ db.collection('albums').add({name:name,coverUrl:e.target.result,createdAt:firebase.firestore.FieldValue.serverTimestamp()}).then(()=>{ showToast('Альбом створено'); closeModal(modalAddAlbum); renderAlbums(); }); }; r.readAsDataURL(file); }
+  else{ db.collection('albums').add({name:name,coverUrl:placeholder,createdAt:firebase.firestore.FieldValue.serverTimestamp()}).then(()=>{ showToast('Альбом створено'); closeModal(modalAddAlbum); renderAlbums(); }); }
 });
 
-// --- Додати фото ---
-btnAddPhoto.addEventListener('click', ()=>{ if(!currentAlbumId){ alert('Оберіть альбом'); return; } inputPhotoFile.value=null; inputPhotoDesc.value=''; openModal(modalAddPhoto); });
-btnCancelPhoto.addEventListener('click', ()=> closeModal(modalAddPhoto));
-btnSavePhoto.addEventListener('click', ()=>{
-  const file = inputPhotoFile.files[0]; const desc = inputPhotoDesc.value.trim();
-  if(!file){ alert('Оберіть файл'); return; }
-  const r = new FileReader(); r.onload = e=>{
-    const dataUrl = e.target.result;
-    db.collection('albums').doc(currentAlbumId).collection('photos').add({ url:dataUrl, desc:desc, timestamp: firebase.firestore.FieldValue.serverTimestamp() }).then(()=>{ showToast('Фото додано'); closeModal(modalAddPhoto); renderPhotos(); renderAlbums(); }).catch(err=>{ console.error(err); showToast('Помилка'); });
-  };
-  r.readAsDataURL(file);
+btnAddPhoto.addEventListener('click',()=>{ if(!currentAlbumId){ alert('Оберіть альбом'); return;} inputPhotoFile.value=null; inputPhotoDesc.value=''; openModal(modalAddPhoto); });
+btnCancelPhoto.addEventListener('click',()=>closeModal(modalAddPhoto));
+btnSavePhoto.addEventListener('click',()=>{
+  const file=inputPhotoFile.files[0]; const desc=inputPhotoDesc.value.trim();
+  if(!file){ alert('Оберіть файл'); return;}
+  const r=new FileReader(); r.onload=e=>{
+    const dataUrl=e.target.result;
+    db.collection('albums').doc(currentAlbumId).collection('photos').add({url:dataUrl,desc:desc,timestamp:firebase.firestore.FieldValue.serverTimestamp()}).then(()=>{ showToast('Фото додано'); closeModal(modalAddPhoto); renderPhotos(); renderAlbums(); });
+  }; r.readAsDataURL(file);
 });
 
-// --- Видалити фото ---
-function deletePhoto(id){
-  if(!confirm('Видалити фото?')) return;
-  db.collection('albums').doc(currentAlbumId).collection('photos').doc(id).delete()
-    .then(()=>{ showToast('Фото видалено'); renderPhotos(); renderAlbums(); })
-    .catch(err=>{ console.error(err); showToast('Помилка при видаленні фото'); });
-}
+// --- DELETE PHOTO ---
+function deletePhoto(id){ if(!confirm('Видалити фото?')) return; db.collection('albums').doc(currentAlbumId).collection('photos').doc(id).delete().then(()=>{ showToast('Фото видалено'); renderPhotos(); renderAlbums(); }).catch(err=>{ console.error(err); showToast('Помилка при видаленні фото'); }); }
 
-// --- Перегляд фото ---
-function openViewer(url,desc){ viewerImg.src = url || placeholder; openModal(modalViewImage); }
-viewerClose.addEventListener('click', ()=>{ viewerImg.src=''; closeModal(modalViewImage); });
+// --- VIEWER ---
+function openViewer(url,desc){ viewerImg.src=url||placeholder; openModal(modalViewImage); }
+viewerClose.addEventListener('click',()=>{ viewerImg.src=''; closeModal(modalViewImage); });
 
-// --- Нотатка ---
-mainNote.addEventListener('click', ()=>{
-  const newText = prompt('Редагувати нотатку:', mainNote.textContent);
-  if(newText !== null){
-    mainNote.textContent = newText;
-  }
-});
+// --- NOTE ---
+mainNote.addEventListener('click',()=>{ const newText=prompt('Редагувати нотатку:',mainNote.textContent); if(newText!==null) mainNote.textContent=newText; });
 
-// --- корисні ---
-function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
-window.addEventListener('click',(e)=>{ ['modal-add-album','modal-add-photo','modal-edit-album','modal-view-image'].forEach(id=>{ const el=document.getElementById(id); if(el && e.target===el) el.style.display='none'; }); });
-document.getElementById('btn-show-albums').addEventListener('click', ()=>{ document.getElementById('photos-section').style.display='none'; document.getElementById('albums-section').style.display='block'; currentAlbumId=null; });
+// --- HELPERS ---
+function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c])); }
+window.addEventListener('click',(e)=>{ ['modal-add-album','modal-add-photo','modal-edit-album','modal-view-image'].forEach(id=>{ const el=document.getElementById(id); if(el&&e.target===el) el.style.display='none'; }); });
+document.getElementById('btn-show-albums').addEventListener('click',()=>{ document.getElementById('photos-section').style.display='none'; document.getElementById('albums-section').style.display='block'; currentAlbumId=null; });
 </script>
 </body>
 </html>

@@ -52,13 +52,15 @@ body{margin:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circ
 .viewer-img{max-width:90vw;max-height:80vh;border-radius:12px}
 .viewer-close{position:absolute;top:16px;right:22px;font-size:28px;color:#fff;cursor:pointer}
 
-/* MUSIC PLAYER */
-#music-player{position:fixed;bottom:0;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.4);padding:8px 14px;border-radius:12px;display:flex;align-items:center;gap:8px;z-index:1000}
-
 /* toast */
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:70px;background:rgba(0,0,0,0.6);padding:8px 14px;border-radius:10px;display:none}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:rgba(0,0,0,0.6);padding:8px 14px;border-radius:10px;display:none}
 
-.note{font-size:0.95rem;color:#ffd9e9;margin-top:8px;cursor:pointer;}
+/* Music Player */
+#music-player{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.4);padding:8px 14px;border-radius:12px;color:white;display:flex;align-items:center;gap:10px;opacity:0;transition:opacity .3s;z-index:1000;}
+#music-player button{background:none;border:none;color:white;cursor:pointer;font-size:18px;}
+#music-player #track-name{margin:0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px;}
+#music-player input[type=range]{cursor:pointer;}
+#music-player:hover{opacity:1;}
 </style>
 </head>
 <body>
@@ -73,7 +75,7 @@ body{margin:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circ
 
   <div id="albums-section">
     <div id="albums-view"></div>
-    <div class="note" id="main-note">Ми та наші спогади з принцесою💗.</div>
+    <div class="note" id="main-note" contenteditable="true">Наші спогади з принцесою💗.</div>
   </div>
 
   <div id="photos-section">
@@ -128,19 +130,23 @@ body{margin:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circ
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <!-- Музика -->
 <div id="music-player">
-  <input type="file" id="music-file" accept="audio/*"/>
-  <audio id="bg-music" controls></audio>
+  <button id="prev-track">⏮</button>
+  <button id="play-pause">⏸</button>
+  <button id="next-track">⏭</button>
+  <span id="track-name"></span>
+  <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
 </div>
-
-<div class="toast" id="toast"></div>
+<audio id="bg-music" autoplay loop></audio>
 
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
-// Firebase config
+// Конфіг Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAj1aM_i39eq42FdFUw9-QZeq0gJhQwb-E",
   authDomain: "galereya-ani.firebaseapp.com",
@@ -160,21 +166,7 @@ const placeholder = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/
 // Елементи
 const albumsView = document.getElementById('albums-view');
 const photoGrid = document.getElementById('photo-grid');
-const mainNote = document.getElementById('main-note');
 
-// --- Музика ---
-const musicFile = document.getElementById('music-file');
-const bgMusic = document.getElementById('bg-music');
-musicFile.addEventListener('change', ()=>{
-  const file = musicFile.files[0];
-  if(file){
-    const url = URL.createObjectURL(file);
-    bgMusic.src = url;
-    bgMusic.play();
-  }
-});
-
-// --- UI ---
 const btnAddAlbum = document.getElementById('btn-add-album');
 const modalAddAlbum = document.getElementById('modal-add-album');
 const inputAlbumName = document.getElementById('input-album-name');
@@ -200,6 +192,9 @@ const viewerImg = document.getElementById('viewer-img');
 const viewerClose = document.getElementById('viewer-close');
 
 const toast = document.getElementById('toast');
+const mainNote = document.getElementById('main-note');
+
+// UI helpers
 function showToast(text){ toast.textContent = text; toast.style.display = 'block'; setTimeout(()=> toast.style.display='none',2200); }
 function openModal(modal){ modal.style.display = 'flex'; }
 function closeModal(modal){ modal.style.display = 'none'; }
@@ -238,52 +233,6 @@ function renderAlbums(){
 }
 renderAlbums();
 
-function openAlbum(id,name){
-  currentAlbumId = id;
-  document.getElementById('albums-section').style.display = 'none';
-  document.getElementById('photos-section').style.display = 'block';
-  document.getElementById('current-album-name').textContent = name;
-  renderPhotos();
-}
-document.getElementById('back-to-albums').addEventListener('click', ()=>{
-  currentAlbumId = null;
-  document.getElementById('photos-section').style.display = 'none';
-  document.getElementById('albums-section').style.display = 'block';
-});
-
-function deleteAlbum(id){
-  if(!confirm('Видалити альбом? Усі фото також будуть видалені.')) return;
-  const ref = db.collection('albums').doc(id);
-  ref.collection('photos').get().then(s=>{
-    const batch = db.batch();
-    s.forEach(doc=> batch.delete(ref.collection('photos').doc(doc.id)));
-    batch.commit().then(()=> ref.delete().then(()=> showToast('Альбом видалено')).then(()=> renderAlbums()))
-    .catch(err=>{ console.error(err); showToast('Помилка при видаленні фото'); });
-  }).catch(err=>{ console.error(err); showToast('Помилка доступу до альбому'); });
-}
-
-function openEditAlbum(id,data){
-  editingAlbumId = id;
-  inputEditAlbumName.value = data.name || '';
-  inputEditAlbumCover.value = null;
-  openModal(modalEditAlbum);
-}
-btnSaveEditAlbum.addEventListener('click', ()=>{
-  const newName = inputEditAlbumName.value.trim();
-  const file = inputEditAlbumCover.files[0];
-  if(!newName && !file){ showToast('Нічого не змінено'); closeModal(modalEditAlbum); return; }
-  if(file){
-    const r = new FileReader();
-    r.onload = e=>{
-      db.collection('albums').doc(editingAlbumId).update({ name:newName || undefined, coverUrl:e.target.result }).then(()=>{ showToast('Альбом оновлено'); closeModal(modalEditAlbum); renderAlbums(); }).catch(err=>{ console.error(err); showToast('Помилка'); });
-    };
-    r.readAsDataURL(file);
-  } else {
-    db.collection('albums').doc(editingAlbumId).update({ name:newName }).then(()=>{ showToast('Альбом оновлено'); closeModal(modalEditAlbum); renderAlbums(); }).catch(err=>{ console.error(err); showToast('Помилка'); });
-  }
-});
-btnCancelEditAlbum.addEventListener('click', ()=> closeModal(modalEditAlbum));
-
 // --- PHOTOS ---
 function renderPhotos(){
   photoGrid.innerHTML = '';
@@ -310,7 +259,7 @@ function renderPhotos(){
   }).catch(err=>{ console.error(err); showToast('Помилка завантаження фото'); });
 }
 
-// --- Додати альбом ---
+// --- ADD ALBUM / PHOTO / EDIT ---
 btnAddAlbum.addEventListener('click', ()=>{ inputAlbumName.value=''; inputAlbumCover.value=null; openModal(modalAddAlbum); });
 btnCancelAlbum.addEventListener('click', ()=> closeModal(modalAddAlbum));
 btnSaveAlbum.addEventListener('click', ()=>{
@@ -320,7 +269,6 @@ btnSaveAlbum.addEventListener('click', ()=>{
   else{ db.collection('albums').add({ name:name, coverUrl:placeholder, createdAt: firebase.firestore.FieldValue.serverTimestamp() }).then(()=>{ showToast('Альбом створено'); closeModal(modalAddAlbum); renderAlbums(); }).catch(err=>{ console.error(err); showToast('Помилка'); }); }
 });
 
-// --- Додати фото ---
 btnAddPhoto.addEventListener('click', ()=>{ if(!currentAlbumId){ alert('Оберіть альбом'); return; } inputPhotoFile.value=null; inputPhotoDesc.value=''; openModal(modalAddPhoto); });
 btnCancelPhoto.addEventListener('click', ()=> closeModal(modalAddPhoto));
 btnSavePhoto.addEventListener('click', ()=>{
@@ -333,30 +281,86 @@ btnSavePhoto.addEventListener('click', ()=>{
   r.readAsDataURL(file);
 });
 
-// --- Видалити фото ---
-function deletePhoto(id){
-  if(!confirm('Видалити фото?')) return;
-  db.collection('albums').doc(currentAlbumId).collection('photos').doc(id).delete()
-    .then(()=>{ showToast('Фото видалено'); renderPhotos(); renderAlbums(); })
-    .catch(err=>{ console.error(err); showToast('Помилка при видаленні фото'); });
+// --- DELETE ALBUM / PHOTO ---
+function deleteAlbum(id){
+  if(!confirm('Видалити альбом? Усі фото також будуть видалені.')) return;
+  const ref = db.collection('albums').doc(id);
+  ref.collection('photos').get().then(s=>{
+    const batch = db.batch();
+    s.forEach(doc=> batch.delete(ref.collection('photos').doc(doc.id)));
+    batch.commit().then(()=> ref.delete().then(()=> showToast('Альбом видалено')) ).catch(err=>{ console.error(err); showToast('Помилка'); });
+  }).catch(err=>{ console.error(err); showToast('Помилка'); });
 }
 
-// --- Перегляд фото ---
+function deletePhoto(id){
+  if(!confirm('Видалити фото?')) return;
+  db.collection('albums').doc(currentAlbumId).collection('photos').doc(id).delete().then(()=>{ showToast('Фото видалено'); renderPhotos(); renderAlbums(); }).catch(err=>{ console.error(err); showToast('Помилка'); });
+}
+
+// --- EDIT ALBUM ---
+function openEditAlbum(id,data){
+  editingAlbumId = id;
+  inputEditAlbumName.value = data.name || '';
+  inputEditAlbumCover.value = null;
+  openModal(modalEditAlbum);
+}
+btnSaveEditAlbum.addEventListener('click', ()=>{
+  const newName = inputEditAlbumName.value.trim();
+  const file = inputEditAlbumCover.files[0];
+  if(!newName && !file){ showToast('Нічого не змінено'); closeModal(modalEditAlbum); return; }
+  if(file){
+    const r = new FileReader();
+    r.onload = e=>{
+      db.collection('albums').doc(editingAlbumId).update({ name:newName || undefined, coverUrl:e.target.result }).then(()=>{ showToast('Альбом оновлено'); closeModal(modalEditAlbum); renderAlbums(); });
+    };
+    r.readAsDataURL(file);
+  } else {
+    db.collection('albums').doc(editingAlbumId).update({ name:newName }).then(()=>{ showToast('Альбом оновлено'); closeModal(modalEditAlbum); renderAlbums(); });
+  }
+});
+btnCancelEditAlbum.addEventListener('click', ()=> closeModal(modalEditAlbum));
+
+// --- VIEW IMAGE ---
 function openViewer(url,desc){ viewerImg.src = url || placeholder; openModal(modalViewImage); }
 viewerClose.addEventListener('click', ()=>{ viewerImg.src=''; closeModal(modalViewImage); });
 
-// --- Нотатка ---
-mainNote.addEventListener('click', ()=>{
-  const newText = prompt('Редагувати нотатку:', mainNote.textContent);
-  if(newText !== null){
-    mainNote.textContent = newText;
-  }
+// --- NAVIGATION ---
+document.getElementById('back-to-albums').addEventListener('click', ()=>{ currentAlbumId=null; document.getElementById('photos-section').style.display='none'; document.getElementById('albums-section').style.display='block'; });
+document.getElementById('btn-show-albums').addEventListener('click', ()=>{ document.getElementById('photos-section').style.display='none'; document.getElementById('albums-section').style.display='block'; currentAlbumId=null; });
+
+// --- ESCAPE HTML ---
+function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
+
+// --- MODAL CLOSE CLICK OUTSIDE ---
+window.addEventListener('click',(e)=>{ ['modal-add-album','modal-add-photo','modal-edit-album','modal-view-image'].forEach(id=>{ const el=document.getElementById(id); if(el && e.target===el) el.style.display='none'; }); });
+
+// --- MUSIC PLAYER ---
+const bgMusic = document.getElementById('bg-music');
+const volumeSlider = document.getElementById('volume-slider');
+const trackSpan = document.getElementById('track-name');
+const playlist = ["music1.mp3","music2.mp3","music3.mp3"]; // додайте файли mp3 сюди
+let currentTrack = 0;
+
+function loadTrack(i){
+  bgMusic.src = playlist[i];
+  trackSpan.textContent = playlist[i];
+  bgMusic.play();
+}
+loadTrack(currentTrack);
+
+bgMusic.addEventListener('ended', ()=> nextTrack());
+volumeSlider.addEventListener('input', ()=> bgMusic.volume = volumeSlider.value);
+
+document.getElementById('play-pause').addEventListener('click', ()=>{
+  if(bgMusic.paused){ bgMusic.play(); document.getElementById('play-pause').textContent='⏸'; }
+  else { bgMusic.pause(); document.getElementById('play-pause').textContent='▶'; }
 });
 
-// --- корисні ---
-function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
-window.addEventListener('click',(e)=>{ ['modal-add-album','modal-add-photo','modal-edit-album','modal-view-image'].forEach(id=>{ const el=document.getElementById(id); if(el && e.target===el) el.style.display='none'; }); });
-document.getElementById('btn-show-albums').addEventListener('click', ()=>{ document.getElementById('photos-section').style.display='none'; document.getElementById('albums-section').style.display='block'; currentAlbumId=null; });
+function nextTrack(){ currentTrack=(currentTrack+1)%playlist.length; loadTrack(currentTrack); }
+function prevTrack(){ currentTrack=(currentTrack-1+playlist.length)%playlist.length; loadTrack(currentTrack); }
+document.getElementById('next-track').addEventListener('click', nextTrack);
+document.getElementById('prev-track').addEventListener('click', prevTrack);
+
 </script>
 </body>
 </html>

@@ -52,10 +52,13 @@ body{margin:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circ
 .viewer-img{max-width:90vw;max-height:80vh;border-radius:12px}
 .viewer-close{position:absolute;top:16px;right:22px;font-size:28px;color:#fff;cursor:pointer}
 
-/* toast */
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:rgba(0,0,0,0.6);padding:8px 14px;border-radius:10px;display:none}
+/* MUSIC PLAYER */
+#music-player{position:fixed;bottom:0;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.4);padding:8px 14px;border-radius:12px;display:flex;align-items:center;gap:8px;z-index:1000}
 
-.note{font-size:0.95rem;color:#ffd9e9;margin-top:8px}
+/* toast */
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:70px;background:rgba(0,0,0,0.6);padding:8px 14px;border-radius:10px;display:none}
+
+.note{font-size:0.95rem;color:#ffd9e9;margin-top:8px;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -70,7 +73,7 @@ body{margin:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circ
 
   <div id="albums-section">
     <div id="albums-view"></div>
-    <div class="note">Наші спогади з принцесою💗.</div>
+    <div class="note" id="main-note">Ми та наші спогади з принцесою💗.</div>
   </div>
 
   <div id="photos-section">
@@ -125,13 +128,19 @@ body{margin:0;font-family:'Open Sans',sans-serif;background:radial-gradient(circ
   </div>
 </div>
 
+<!-- Музика -->
+<div id="music-player">
+  <input type="file" id="music-file" accept="audio/*"/>
+  <audio id="bg-music" controls></audio>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
-// Конфіг Firebase (твоя)
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAj1aM_i39eq42FdFUw9-QZeq0gJhQwb-E",
   authDomain: "galereya-ani.firebaseapp.com",
@@ -151,7 +160,21 @@ const placeholder = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/
 // Елементи
 const albumsView = document.getElementById('albums-view');
 const photoGrid = document.getElementById('photo-grid');
+const mainNote = document.getElementById('main-note');
 
+// --- Музика ---
+const musicFile = document.getElementById('music-file');
+const bgMusic = document.getElementById('bg-music');
+musicFile.addEventListener('change', ()=>{
+  const file = musicFile.files[0];
+  if(file){
+    const url = URL.createObjectURL(file);
+    bgMusic.src = url;
+    bgMusic.play();
+  }
+});
+
+// --- UI ---
 const btnAddAlbum = document.getElementById('btn-add-album');
 const modalAddAlbum = document.getElementById('modal-add-album');
 const inputAlbumName = document.getElementById('input-album-name');
@@ -177,13 +200,11 @@ const viewerImg = document.getElementById('viewer-img');
 const viewerClose = document.getElementById('viewer-close');
 
 const toast = document.getElementById('toast');
-
-// UI helpers
 function showToast(text){ toast.textContent = text; toast.style.display = 'block'; setTimeout(()=> toast.style.display='none',2200); }
 function openModal(modal){ modal.style.display = 'flex'; }
 function closeModal(modal){ modal.style.display = 'none'; }
 
-// -------------- ALBUMS --------------
+// --- ALBUMS ---
 function renderAlbums(){
   albumsView.innerHTML = '';
   db.collection('albums').orderBy('createdAt','desc').get().then(snapshot=>{
@@ -204,17 +225,10 @@ function renderAlbums(){
           <div class="album-count" id="count-${doc.id}">завантаження...</div>
         </div>
       `;
-
-      // клік на картку відкриває альбом
       card.addEventListener('click',()=> openAlbum(doc.id, data.name));
-
-      // кнопки
       card.querySelector('.icon-del').addEventListener('click', (e)=>{ e.stopPropagation(); deleteAlbum(doc.id); });
       card.querySelector('.icon-edit').addEventListener('click', (e)=>{ e.stopPropagation(); openEditAlbum(doc.id, data); });
-
       albumsView.appendChild(card);
-
-      // підрахунок фото (одноразовий)
       db.collection('albums').doc(doc.id).collection('photos').get().then(s=>{
         const el = document.getElementById(`count-${doc.id}`);
         if(el) el.textContent = s.size + ' фото';
@@ -222,11 +236,8 @@ function renderAlbums(){
     });
   }).catch(err=>{ console.error(err); showToast('Помилка завантаження альбомів'); });
 }
-
-// виклик при старті
 renderAlbums();
 
-// Відкрити альбом
 function openAlbum(id,name){
   currentAlbumId = id;
   document.getElementById('albums-section').style.display = 'none';
@@ -234,35 +245,29 @@ function openAlbum(id,name){
   document.getElementById('current-album-name').textContent = name;
   renderPhotos();
 }
-
-// Повернутись
 document.getElementById('back-to-albums').addEventListener('click', ()=>{
   currentAlbumId = null;
   document.getElementById('photos-section').style.display = 'none';
   document.getElementById('albums-section').style.display = 'block';
 });
 
-// Видалити альбом (разом з фото)
 function deleteAlbum(id){
   if(!confirm('Видалити альбом? Усі фото також будуть видалені.')) return;
   const ref = db.collection('albums').doc(id);
   ref.collection('photos').get().then(s=>{
     const batch = db.batch();
     s.forEach(doc=> batch.delete(ref.collection('photos').doc(doc.id)));
-    batch.commit().then(()=>{
-      ref.delete().then(()=> showToast('Альбом видалено'));
-    }).catch(err=>{ console.error(err); showToast('Помилка при видаленні фото'); });
+    batch.commit().then(()=> ref.delete().then(()=> showToast('Альбом видалено')).then(()=> renderAlbums()))
+    .catch(err=>{ console.error(err); showToast('Помилка при видаленні фото'); });
   }).catch(err=>{ console.error(err); showToast('Помилка доступу до альбому'); });
 }
 
-// Редагувати альбом (відкриваємо модальне)
 function openEditAlbum(id,data){
   editingAlbumId = id;
   inputEditAlbumName.value = data.name || '';
   inputEditAlbumCover.value = null;
   openModal(modalEditAlbum);
 }
-// Зберегти редагування
 btnSaveEditAlbum.addEventListener('click', ()=>{
   const newName = inputEditAlbumName.value.trim();
   const file = inputEditAlbumCover.files[0];
@@ -279,7 +284,7 @@ btnSaveEditAlbum.addEventListener('click', ()=>{
 });
 btnCancelEditAlbum.addEventListener('click', ()=> closeModal(modalEditAlbum));
 
-// -------------- PHOTOS --------------
+// --- PHOTOS ---
 function renderPhotos(){
   photoGrid.innerHTML = '';
   if(!currentAlbumId) return;
@@ -288,23 +293,15 @@ function renderPhotos(){
     snapshot.forEach(doc=>{
       const p = doc.data();
       const pc = document.createElement('div'); pc.className='photo-card';
-      // захищаємо від undefined
       const url = p.url || '';
       const desc = p.desc || '';
-
-      // створюємо елементи
       const img = document.createElement('img'); img.alt = desc; img.loading='lazy';
-      // безпосередньо присвоюємо src — якщо url порожній, показуємо placeholder
-      if(url.startsWith('data:image')) img.src = url; else img.src = placeholder;
-      // обробник помилки на випадок, якщо dataURL кривий
+      img.src = url.startsWith('data:image') ? url : placeholder;
       img.onerror = ()=>{ img.src = placeholder; };
-
       const descDiv = document.createElement('div'); descDiv.className='photo-desc'; descDiv.textContent = desc;
       const delBtn = document.createElement('button'); delBtn.className='delete-btn'; delBtn.title='Видалити'; delBtn.textContent='🗑';
-
       img.addEventListener('click', ()=>{ openViewer(url, desc); });
       delBtn.addEventListener('click', (e)=>{ e.stopPropagation(); deletePhoto(doc.id); });
-
       pc.appendChild(img);
       pc.appendChild(delBtn);
       pc.appendChild(descDiv);
@@ -313,7 +310,7 @@ function renderPhotos(){
   }).catch(err=>{ console.error(err); showToast('Помилка завантаження фото'); });
 }
 
-// Додати альбом
+// --- Додати альбом ---
 btnAddAlbum.addEventListener('click', ()=>{ inputAlbumName.value=''; inputAlbumCover.value=null; openModal(modalAddAlbum); });
 btnCancelAlbum.addEventListener('click', ()=> closeModal(modalAddAlbum));
 btnSaveAlbum.addEventListener('click', ()=>{
@@ -323,7 +320,7 @@ btnSaveAlbum.addEventListener('click', ()=>{
   else{ db.collection('albums').add({ name:name, coverUrl:placeholder, createdAt: firebase.firestore.FieldValue.serverTimestamp() }).then(()=>{ showToast('Альбом створено'); closeModal(modalAddAlbum); renderAlbums(); }).catch(err=>{ console.error(err); showToast('Помилка'); }); }
 });
 
-// Додати фото
+// --- Додати фото ---
 btnAddPhoto.addEventListener('click', ()=>{ if(!currentAlbumId){ alert('Оберіть альбом'); return; } inputPhotoFile.value=null; inputPhotoDesc.value=''; openModal(modalAddPhoto); });
 btnCancelPhoto.addEventListener('click', ()=> closeModal(modalAddPhoto));
 btnSavePhoto.addEventListener('click', ()=>{
@@ -336,27 +333,30 @@ btnSavePhoto.addEventListener('click', ()=>{
   r.readAsDataURL(file);
 });
 
-// Видалити фото
+// --- Видалити фото ---
 function deletePhoto(id){
   if(!confirm('Видалити фото?')) return;
-  db.collection('albums').doc(currentAlbum).collection('photos').doc(id).delete()
-    .then(()=> showToast('Фото видалено'))
+  db.collection('albums').doc(currentAlbumId).collection('photos').doc(id).delete()
+    .then(()=>{ showToast('Фото видалено'); renderPhotos(); renderAlbums(); })
     .catch(err=>{ console.error(err); showToast('Помилка при видаленні фото'); });
 }
 
-// Перегляд фото
+// --- Перегляд фото ---
 function openViewer(url,desc){ viewerImg.src = url || placeholder; openModal(modalViewImage); }
 viewerClose.addEventListener('click', ()=>{ viewerImg.src=''; closeModal(modalViewImage); });
 
-// корисні
+// --- Нотатка ---
+mainNote.addEventListener('click', ()=>{
+  const newText = prompt('Редагувати нотатку:', mainNote.textContent);
+  if(newText !== null){
+    mainNote.textContent = newText;
+  }
+});
+
+// --- корисні ---
 function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
-
-// Закривання модалів клік-поза
 window.addEventListener('click',(e)=>{ ['modal-add-album','modal-add-photo','modal-edit-album','modal-view-image'].forEach(id=>{ const el=document.getElementById(id); if(el && e.target===el) el.style.display='none'; }); });
-
-// Кнопка показати альбоми
 document.getElementById('btn-show-albums').addEventListener('click', ()=>{ document.getElementById('photos-section').style.display='none'; document.getElementById('albums-section').style.display='block'; currentAlbumId=null; });
-
 </script>
 </body>
 </html>
